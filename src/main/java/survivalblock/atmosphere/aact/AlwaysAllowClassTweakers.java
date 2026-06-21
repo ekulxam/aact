@@ -21,6 +21,6 @@ public class AlwaysAllowClassTweakers implements LanguageAdapter {
     }
 
     static {
-        FabricLoaderImpl.INSTANCE.setGameProvider(new AACTMinecraftGameProvider());
+        FabricLoaderImpl.INSTANCE.setGameProvider(new AACTMinecraftGameProvider(FabricLoaderImpl.INSTANCE.getGameProvider()));
     }
 }
