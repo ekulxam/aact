@@ -1,26 +1,42 @@
 package survivalblock.atmosphere.aact;
 
-import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.api.LanguageAdapter;
-import net.fabricmc.loader.api.LanguageAdapterException;
-import net.fabricmc.loader.api.ModContainer;
+import de.zonlykroks.massasmer.MassASMTransformer;
 import net.fabricmc.loader.impl.FabricLoaderImpl;
+import org.objectweb.asm.tree.ClassNode;
 
-@SuppressWarnings("unused")
-public class AlwaysAllowClassTweakers implements LanguageAdapter {
-	public static final String MOD_ID = "aact";
+import java.util.ArrayList;
 
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
-	//public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
+public class AlwaysAllowClassTweakers implements Runnable {
+    public static final String MOD_ID = "aact";
 
     @Override
-    public <T> T create(ModContainer mod, String value, Class<T> type) throws LanguageAdapterException {
-        return LanguageAdapter.getDefault().create(mod, value, type);
+    public void run() {
+        MassASMTransformer.registerNodeTransformer("aact", _ -> true, (name, node) -> {
+            ClassNode node1 = new ClassNode();
+            node.accept(FabricLoaderImpl.INSTANCE.getClassTweaker().createClassVisitor(FabricLoaderImpl.ASM_VERSION, node1, null));
+            resetNode(node);
+            node1.accept(node);
+            return true;
+        });
     }
 
-    static {
-        FabricLoaderImpl.INSTANCE.setGameProvider(new AACTMinecraftGameProvider(FabricLoaderImpl.INSTANCE.getGameProvider()));
+    private void resetNode(ClassNode node) {
+        node.interfaces = null;
+        node.module = null;
+        node.outerClass = null;
+        node.outerMethod = null;
+        node.outerMethodDesc = null;
+        node.visibleAnnotations = new ArrayList<>();
+        node.invisibleAnnotations = new ArrayList<>();
+        node.visibleTypeAnnotations = new ArrayList<>();
+        node.invisibleTypeAnnotations = new ArrayList<>();
+        node.attrs = new ArrayList<>();
+        node.innerClasses = new ArrayList<>();
+        node.nestHostClass = null;
+        node.nestMembers = new ArrayList<>();
+        node.permittedSubclasses = new ArrayList<>();
+        node.recordComponents = new ArrayList<>();
+        node.fields = new ArrayList<>();
+        node.methods = new ArrayList<>();
     }
 }
