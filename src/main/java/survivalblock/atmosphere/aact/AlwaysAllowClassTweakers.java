@@ -11,7 +11,7 @@ public class AlwaysAllowClassTweakers implements Runnable {
 
     @Override
     public void run() {
-        MassASMTransformer.registerNodeTransformer("aact", _ -> true, (name, node) -> {
+        MassASMTransformer.registerNodeTransformer(MOD_ID, _ -> true, (name, node) -> {
             ClassNode node1 = new ClassNode();
             node.accept(FabricLoaderImpl.INSTANCE.getClassTweaker().createClassVisitor(FabricLoaderImpl.ASM_VERSION, node1, null));
             resetNode(node);
