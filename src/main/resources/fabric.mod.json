@@ -5,7 +5,8 @@
 	"name": "Always Allow Class Tweakers",
 	"description": "Allows Class Tweakers to act on non-Minecraft classes",
 	"authors": [
-		"Survivalblock"
+		"Survivalblock",
+        "cputnam-a11y"
 	],
 	"license": "MIT",
 	"icon": "assets/aact/icon.png",
@@ -16,6 +17,6 @@
 	},
 	"depends": {
 		"fabricloader": ">=0.19.3",
-		"java": ">=25"
+		"java": ">=21"
 	}
 }
