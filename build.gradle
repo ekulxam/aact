@@ -22,7 +22,7 @@ repositories {
 dependencies {
 	minecraft "com.mojang:minecraft:${project.minecraft_version}"
 	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
-	include (implementation 'com.github.zOnlyKroks:MassAsmer:master-SNAPSHOT')
+	include (implementation 'com.github.cputnam-a11y:MassAsmer:master-SNAPSHOT')
 }
 
 processResources {
